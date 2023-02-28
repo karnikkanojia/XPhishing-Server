@@ -1,19 +1,15 @@
-import os
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
-import tensorflow as tf
 import pickle
 from utils.URLFeaturizer import UrlFeaturizer
-import sys, getopt
 from tensorflow.keras.models import load_model
 from utils.metrics import (
     f1_m,
     precision_m,
     recall_m,
 )
-
 
 order = ['bodyLength', 'bscr', 'dse', 'dsr', 'entropy', 'hasHttp', 'hasHttps',
        'has_ip', 'numDigits', 'numImages', 'numLinks', 'numParams',
@@ -28,7 +24,6 @@ def predict(url):
 
     encoder = LabelEncoder()
     encoder.classes_ = np.load('models/lblenc.npy',allow_pickle=True)
-    print(encoder.classes_)
     scalerfile = 'models/scaler.sav'
     scaler = pickle.load(open(scalerfile, 'rb'))
     model = load_model("models/Model_v1.h5", custom_objects={'f1_m':f1_m,"precision_m":precision_m, "recall_m":recall_m})
